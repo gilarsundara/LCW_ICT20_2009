@@ -232,4 +232,3 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `nama_lengkap`, `email`, `blok`) VALUES
 (1, 'admin', 'c93ccd78b2076528346216b3b2f701e6', 'administrator', 'admin@sman20bandung.sch.id', 0),
-(3, 'gilar19', '468fb6a608b7c599814727f4fc8c4672', 'Gilar Sundara', 'morphine.majesty@gmail.com', 1);
