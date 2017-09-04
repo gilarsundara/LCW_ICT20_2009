@@ -1,5 +1,6 @@
 # LCW_ICT20_2009
-Versi online sudah di publish di ict20.cangkangsuuk-creative.id
+Versi untuk PHP 7 > silahkan gunakan branch update
+Versi untuk update master terakhir(semi original) silahkan gunakan branch master
 
 Project Lomba Cipta Web Dies Natalies ILKOM UPI 2009
 
