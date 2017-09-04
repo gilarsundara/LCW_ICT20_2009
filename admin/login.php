@@ -2,7 +2,8 @@
 define("admin",1,true);
 define("home",1,true);
 session_start();
-include "../config.php";
+include "../includes/config.php";
+use DB;
 if($_SESSION['admin'] != 'admin')
 {
 ?>
@@ -34,8 +35,8 @@ if($_SESSION['admin'] != 'admin')
               <td colspan="3">&nbsp;<?php
 	if($_POST['login'])
 	{
-		$result=mysql_query("SELECT username,password FROM user WHERE username='".$_POST['username']."' AND password='".md5($_POST['password'])."' AND blok='0'");
-		if(mysql_num_rows($result)!=1)
+		$result=DB::con()->query("SELECT username,password FROM user WHERE username='".$_POST['username']."' AND password='".md5($_POST['password'])."' AND blok='0'");
+		if(count($result) != 1)
 		{
 			echo "<b>Harap isikan username dan password dengan benar</b>";
 		}

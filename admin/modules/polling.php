@@ -13,7 +13,7 @@ else
 
 $max_results = 15;
 $from = (($hal * $max_results) - $max_results);
-$result=mysql_query("SELECT * FROM poll_data ORDER BY id ASC LIMIT $from,$max_results");
+$result=DB::con()->query("SELECT * FROM poll_data ORDER BY id ASC LIMIT $from,$max_results");
 $mode=$_GET['mode'];
 $id=$_GET['id'];
 if(!isset($mode))
@@ -24,27 +24,27 @@ if(!isset($mode))
   <th colspan="4">Polling Manager </th>
 </tr>
 <tr>
-  <td colspan="4">Total polling <?php echo mysql_num_rows($result); ?></td>
+  <td colspan="4">Total polling <?php echo mysqli_num_rows($result); ?></td>
 </tr>
 <tr class="thnya">
     <th width="5%">ID.</th>
     <th width="25%">Judul</th>
     <th width="35%">Hits</th>
     <th width="25%">Editor</th></tr>
-<?php while($row=mysql_fetch_object($result))
+<?php while($row=mysqli_fetch_object($result))
 {
 ?>
   <tr>
 	<th><?=$row->id;?></th>
 	<td><?=$row->judul;?></a></td>
-	<td><?php $result4 = mysql_query("SELECT sum(hits) as hits FROM poll_opsi WHERE pid='$row->id'");
-		$query_data=mysql_fetch_array($result4);
+	<td><?php $result4 = DB::con()->query("SELECT sum(hits) as hits FROM poll_opsi WHERE pid='$row->id'");
+		$query_data=mysqli_fetch_array($result4);
 		$total_hits= (float) $query_data["hits"];
 		echo $total_hits; ?></td>
 	<td><a href="index.php?p=polling&amp;mode=view&amp;id=<?=$row->id;?>">Lihat</a> | <a href="index.php?p=polling&amp;mode=delete&amp;id=<?=$row->id;?>">Hapus</a></td>
   </tr><?php
 	}
-	$total_results = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM poll_data"),0);
+	$total_results = mysqli_result(DB::con()->query("SELECT COUNT(*) as Num FROM poll_data"),0);
 	$total_pages = ceil($total_results / $max_results);
 	echo "<tr>\n<th colspan=\"4\">Halaman</th>\n</tr>\n<tr>\n<td colspan=\"4\">";
 
@@ -74,8 +74,8 @@ if(!isset($mode))
 }
 if(isset($mode) && $mode==='view')
 {
-	$result2=mysql_query("SELECT * FROM poll_data WHERE id='$id'");
-	$row2=mysql_fetch_object($result2);
+	$result2=DB::con()->query("SELECT * FROM poll_data WHERE id='$id'");
+	$row2=mysqli_fetch_object($result2);
 ?>
 	<table width="80%" border="1" align="center">
 	  <tr>
@@ -89,8 +89,8 @@ if(isset($mode) && $mode==='view')
 		<td width="20%">JUDUL</td>
 	  	<td><?=$row2->judul; ?></td>
 	  </tr><?php
-	  $result4=mysql_query("SELECT * FROM poll_opsi WHERE pid='$row2->id'");
-	  while($row4=mysql_fetch_object($result4))
+	  $result4=DB::con()->query("SELECT * FROM poll_opsi WHERE pid='$row2->id'");
+	  while($row4=mysqli_fetch_object($result4))
 	  {
 	  ?>
 	  <tr>
@@ -102,8 +102,8 @@ if(isset($mode) && $mode==='view')
 	  ?>
 	  <tr>
 		<td>HITS</td>
-		<td><?php $result4 = mysql_query("SELECT sum(hits) as hits FROM poll_opsi WHERE pid='$row2->id'");
-		$query_data=mysql_fetch_array($result4);
+		<td><?php $result4 = DB::con()->query("SELECT sum(hits) as hits FROM poll_opsi WHERE pid='$row2->id'");
+		$query_data=mysqli_fetch_array($result4);
 		$total_hits= (float) $query_data["hits"];
 		echo $total_hits; ?></td>
 	  </tr>
@@ -173,8 +173,8 @@ if(isset($mode) && $mode==='add')
 <?php
 	if($_POST['submit'])
 	{
-		$result7=mysql_query("SELECT * FROM poll_data ORDER BY id DESC LIMIT 0,1");
-		$row7=mysql_fetch_object($result7);
+		$result7=DB::con()->query("SELECT * FROM poll_data ORDER BY id DESC LIMIT 0,1");
+		$row7=mysqli_fetch_object($result7);
 		$pidnew=$row7->id;
 		if($pidnew<1)
 		{
@@ -195,32 +195,32 @@ if(isset($mode) && $mode==='add')
 		}
 		if(!empty($judul) && !empty($opsia) && !empty($opsib))
 		{
-			mysql_query("INSERT INTO poll_data (judul) VALUES('$judul');");
-			mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsia');");
-			mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsib');");
+			DB::con()->query("INSERT INTO poll_data (judul) VALUES('$judul');");
+			DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsia');");
+			DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsib');");
 			if(!empty($opsic))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsic');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsic');");
 			}
 			if(!empty($opsid))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsid');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsid');");
 			}
 			if(!empty($opsie))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsie');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsie');");
 			}
 			if(!empty($opsif))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsif');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsif');");
 			}
 			if(!empty($opsig))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsig');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsig');");
 			}
 			if(!empty($opsih))
 			{
-				mysql_query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsih');");
+				DB::con()->query("INSERT INTO poll_opsi (pid,opsi) VALUES('$pidnew','$opsih');");
 			}
 			echo"<script>alert('Polling telah dibuat.');document.location='index.php?p=polling';</script>";
 		}
@@ -229,16 +229,16 @@ if(isset($mode) && $mode==='add')
 
 if(isset($mode) && $mode==='delete')
 {
-	mysql_query("DELETE FROM poll_data WHERE id='$id'");
-	mysql_query("DELETE FROM poll_opsi WHER pid='$id'");
+	DB::con()->query("DELETE FROM poll_data WHERE id='$id'");
+	DB::con()->query("DELETE FROM poll_opsi WHER pid='$id'");
 	echo"<script>alert('Polling telah dihapus'); document.location='index.php?p=polling';</script>";
 }
 if(isset($mode) && $mode==='show')
 {
-	$result8=mysql_query("SELECT value FROM konfig WHERE nama='pid'");
-	$row8=mysql_fetch_object($result8);
-	$result9=mysql_query("SELECT judul FROM poll_data WHERE id='$row8->value'");
-	$row9=mysql_fetch_object($result9);
+	$result8=DB::con()->query("SELECT value FROM konfig WHERE nama='pid'");
+	$row8=mysqli_fetch_object($result8);
+	$result9=DB::con()->query("SELECT judul FROM poll_data WHERE id='$row8->value'");
+	$row9=mysqli_fetch_object($result9);
 
 ?>
 <form action="" method="post">
@@ -255,8 +255,8 @@ if(isset($mode) && $mode==='show')
     <td>UBAH POLLING YANG DITAMPILKAN DI HOME </td>
     <td>:</td>
     <td><select name="pid"><?php
-	$result10=mysql_query("SELECT * FROM poll_data ORDER BY id ASC");
-	while($row10=mysql_fetch_object($result10))
+	$result10=DB::con()->query("SELECT * FROM poll_data ORDER BY id ASC");
+	while($row10=mysqli_fetch_object($result10))
 	{
 	?>
       <option value="<?=$row10->id;?>"><?=$row10->judul;?></option>
@@ -277,7 +277,7 @@ if(isset($mode) && $mode==='show')
 	if($_POST['submit'])
 	{
 		$pid=$_POST['pid'];
-		mysql_query("UPDATE konfig SET value='$pid' WHERE name='pid'");
+		DB::con()->query("UPDATE konfig SET value='$pid' WHERE name='pid'");
 		echo "<script>alert('Polling home telah di ubah');document.location='index.php?p=polling';</script>";
 	}
 }

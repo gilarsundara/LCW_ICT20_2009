@@ -42,9 +42,9 @@ if(!isset($mode))
 	
 	echo "<table width=\"100%\" border=\"0\">\n";
 	
-	$result=mysql_query("SELECT * FROM berita WHERE tampilkan='1' ORDER BY id DESC LIMIT $from,$max_results");
+	$result=DB::con()->query("SELECT * FROM berita WHERE tampilkan='1' ORDER BY id DESC LIMIT $from,$max_results");
 	
-	while($row=mysql_fetch_object($result))
+	while($row=mysqli_fetch_object($result))
 	{
 		$url= 'default.php?p=berita&amp;mode=detail&amp;id='.$row->id;
 		$konten=$row->konten;
@@ -52,7 +52,7 @@ if(!isset($mode))
 		artikel($konten,$url);
 	}
 	
-	$total_results = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM berita"),0);
+	$total_results = count(DB::con()->query("SELECT COUNT(*) as Num FROM berita"));
 	$total_pages = ceil($total_results / $max_results); 
 	echo "<tr>\n<th>Halaman</th>\n</tr>\n<tr>\n<td>";
 	if($hal > 1)
@@ -83,8 +83,8 @@ if(!isset($mode))
 if(isset($mode) && $mode==='detail')
 {
 	$id=$_GET['id'];
-	$result=mysql_query("SELECT * FROM berita WHERE id='$id'");
-	while($row=mysql_fetch_object($result))
+	$result=DB::con()->query("SELECT * FROM berita WHERE id='$id'");
+	while($row=mysqli_fetch_object($result))
 	{
 		echo "<h2 align=\"left\">$row->judul</h4>\n";
 		echo "<h3 align=\"left\">Dikirim pada : $row->dikirim oleh $row->pengirim</h3>\n";

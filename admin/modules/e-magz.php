@@ -13,7 +13,7 @@ else
 
 $max_results = 15;
 $from = (($hal * $max_results) - $max_results);
-$result=mysql_query("SELECT * FROM emagz ORDER BY id DESC LIMIT $from,$max_results");
+$result=DB::con()->query("SELECT * FROM emagz ORDER BY id DESC LIMIT $from,$max_results");
 $mode=$_GET['mode'];
 $id=$_GET['id'];
 if(!isset($mode))
@@ -24,7 +24,7 @@ if(!isset($mode))
   <th colspan="4">E-Magazine Manager</th>
 </tr>
 <tr>
-  <td colspan="4">Total e-magazine <?php echo mysql_num_rows($result); ?></td>
+  <td colspan="4">Total e-magazine <?php echo mysqli_num_rows($result); ?></td>
 </tr>
 <tr class="thnya">
     <th width="5%">ID.</th>
@@ -32,7 +32,7 @@ if(!isset($mode))
     <th width="10%">Rilis</th>
     <th width="25%">Editor</th>
 </tr>
-<?php while($row=mysql_fetch_object($result))
+<?php while($row=mysqli_fetch_object($result))
 {
 ?>
   <tr>
@@ -41,7 +41,7 @@ if(!isset($mode))
 	<td><?=$row->rilis;?></td>
 	<td><a href="index.php?p=e-magz&amp;mode=view&amp;id=<?=$row->id;?>">Lihat</a> | <a href="index.php?p=e-magz&amp;mode=edit&amp;id=<?=$row->id;?>">Edit</a> | <a href="index.php?p=e-magz&amp;mode=delete&amp;id=<?=$row->id;?>">Hapus</a></td>
   </tr><?php
-	} $total_results = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM emagz"),0);
+	} $total_results = mysqli_result(DB::con()->query("SELECT COUNT(*) as Num FROM emagz"),0);
 	$total_pages = ceil($total_results / $max_results);
 	echo "<tr>\n<th colspan=\"4\">Halaman</th>\n</tr>\n<tr>\n<td colspan=\"4\">";
 
@@ -71,8 +71,8 @@ if(!isset($mode))
 }
 if(isset($mode) && $mode==='view')
 {
-	$result2=mysql_query("SELECT * FROM emagz WHERE id='$id'");
-	$row2=mysql_fetch_object($result2);
+	$result2=DB::con()->query("SELECT * FROM emagz WHERE id='$id'");
+	$row2=mysqli_fetch_object($result2);
 ?>
 	<table width="80%" border="1" align="center">
 	  <tr>
@@ -112,13 +112,13 @@ if(isset($mode) && $mode==='view')
 
 if(isset($mode) && $mode==='on')
 {
-	mysql_query("UPDATE emagz SET tampilkan = '1' WHERE id='$id'");
+	DB::con()->query("UPDATE emagz SET tampilkan = '1' WHERE id='$id'");
 	echo"<script>alert('E-magazine telah ditampilkan'); document.location='javascript:history.go(-1)';</script>";
 }
 
 if(isset($mode) && $mode=='off')
 {
-	mysql_query("UPDATE emagz SET tampilkan = '0' WHERE id='$id'");
+	DB::con()->query("UPDATE emagz SET tampilkan = '0' WHERE id='$id'");
 	echo"<script>alert('E-magazine telah tidak ditampilkan'); document.location='javascript:history.go(-1)';</script>";
 }
 
@@ -211,7 +211,7 @@ if(isset($mode) && $mode==='add')
 
 		if(move_uploaded_file($_FILES['screenshot']['tmp_name'], $target_path) && move_uploaded_file($_FILES['swf']['tmp_name'], $target_path2))
 		{
-			mysql_query("INSERT INTO emagz (judul,screenshot,rilis,deskripsi,swf,tampilkan) VALUES('$judul','$screenshot','$rilis','$deskripsi','$swf','$tampilkan');");
+			DB::con()->query("INSERT INTO emagz (judul,screenshot,rilis,deskripsi,swf,tampilkan) VALUES('$judul','$screenshot','$rilis','$deskripsi','$swf','$tampilkan');");
 			echo"<script>alert('E-magz telah dibuat'); document.location='index.php?p=e-magz';</script>";
 			}
 			else
@@ -224,8 +224,8 @@ if(isset($mode) && $mode==='add')
 
 if(isset($mode) && $mode==='edit')
 {
-	$result3=mysql_query("SELECT * FROM emagz WHERE id='$id'");
-	$row3=mysql_fetch_object($result3);
+	$result3=DB::con()->query("SELECT * FROM emagz WHERE id='$id'");
+	$row3=mysqli_fetch_object($result3);
 ?>
 	<script type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
@@ -299,13 +299,13 @@ if(isset($mode) && $mode==='edit')
 		}
 		elseif(!empty($judul) && !empty($deskripsi) && !empty($tampilkan))
 		{
-			mysql_query("UPDATE emagz SET judul='$judul' , deskripsi='$deskripsi' , tampilkan='$tampilkan' WHERE id='$id'");
+			DB::con()->query("UPDATE emagz SET judul='$judul' , deskripsi='$deskripsi' , tampilkan='$tampilkan' WHERE id='$id'");
 			echo"<script>alert('E-magazine telah diubah'); document.location='index.php?p=e-magz';</script>";
 		}
 	}
 }
 if(isset($mode) && $mode==='delete')
 {
-	mysql_query("DELETE FROM emagz WHERE id='$id'");
+	DB::con()->query("DELETE FROM emagz WHERE id='$id'");
 	echo"<script>alert('E-magazine telah dihapus'); document.location='index.php?p=e-magz';</script>";
 }

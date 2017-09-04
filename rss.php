@@ -14,8 +14,8 @@ $rss_channel->generator = 'PHP RSS Feed Generator';
 $rss_channel->managingEditor = 'admin@sman20bandung.sch.id (Administrator)';
 $rss_channel->webMaster = 'admin@sman20bandung.sch.id (Administrator)';
 
-$result=mysql_query("SELECT * FROM berita WHERE tampilkan='1' ORDER BY id DESC");
-while($row=mysql_fetch_object($result))
+$result=DB::con()->query("SELECT * FROM berita WHERE tampilkan='1' ORDER BY id DESC");
+while($row=mysqli_fetch_object($result))
 {
 	$item = new rssGenerator_item();
 	$item->title = $row->judul;

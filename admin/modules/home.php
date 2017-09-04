@@ -1,6 +1,6 @@
 <?php
 defined("home") or die("Maaf anda tidak bisa melihat halaman ini");
-$result=mysql_query("SELECT * FROM home");
+$result=DB::con()->query("SELECT * FROM home");
 $mode=$_GET['mode'];
 $id=$_GET['id'];
 if(!isset($mode))
@@ -10,8 +10,8 @@ if(!isset($mode))
 }
 if(isset($mode) && $mode==='home')
 {
-	$result2=mysql_query("SELECT * FROM home");
-	$row2=mysql_fetch_object($result2);
+	$result2=DB::con()->query("SELECT * FROM home");
+	$row2=mysqli_fetch_object($result2);
 ?>
 	<table width="80%" border="1" align="center">
 	  <tr>
@@ -29,8 +29,8 @@ if(isset($mode) && $mode==='home')
 
 elseif(isset($mode) && $mode==='edithome')
 {
-	$result3=mysql_query("SELECT * FROM home");
-	$row3=mysql_fetch_object($result3);
+	$result3=DB::con()->query("SELECT * FROM home");
+	$row3=mysqli_fetch_object($result3);
 ?>
 	<script type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
@@ -93,7 +93,7 @@ elseif(isset($mode) && $mode==='edithome')
 		}
 		elseif(!empty($judul) && !empty($konten))
 		{
-			mysql_query("UPDATE home SET judul='$judul' , konten='$konten'");
+			DB::con()->query("UPDATE home SET judul='$judul' , konten='$konten'");
 			echo"<script>alert('Home telah diubah'); document.location='index.php';</script>";
 		}
 	}

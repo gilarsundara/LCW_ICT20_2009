@@ -13,7 +13,7 @@ else
 
 $max_results = 15;
 $from = (($hal * $max_results) - $max_results);
-$result=mysql_query("SELECT * FROM bukutamu ORDER BY id DESC LIMIT $from,$max_results");
+$result=DB::con()->query("SELECT * FROM bukutamu ORDER BY id DESC LIMIT $from,$max_results");
 $mode=$_GET['mode'];
 $id=$_GET['id'];
 if(!isset($mode))
@@ -24,7 +24,7 @@ if(!isset($mode))
   <th colspan="4">Bukutamu Manager</th>
 </tr>
 <tr>
-  <td colspan="4">Total pesan <?php echo mysql_num_rows($result); ?></td>
+  <td colspan="4">Total pesan <?php echo mysqli_num_rows($result); ?></td>
 </tr>
 <tr class="thnya">
     <th width="5%">ID.</th>
@@ -32,7 +32,7 @@ if(!isset($mode))
     <th width="35%">EMAIL</th>
     <th width="25%">EDITOR</th>
 </tr>
-<?php while($row=mysql_fetch_object($result))
+<?php while($row=mysqli_fetch_object($result))
 {
 ?>
   <tr>
@@ -42,7 +42,7 @@ if(!isset($mode))
 	<td><a href="index.php?p=bukutamu&amp;mode=view&amp;id=<?=$row->id;?>">Lihat Pesan</a> | <a href="index.php?p=bukutamu&amp;mode=delete&amp;id=<?=$row->id;?>">Hapus</a></td>
   </tr><?php
 	}
-	$total_results = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM bukutamu"),0);
+	$total_results = mysqli_result(DB::con()->query("SELECT COUNT(*) as Num FROM bukutamu"),0);
 	$total_pages = ceil($total_results / $max_results);
 	echo "<tr>\n<th colspan=\"4\">Halaman</th>\n</tr>\n<tr>\n<td colspan=\"4\">";
 
@@ -71,18 +71,18 @@ if(!isset($mode))
 }
 if(isset($mode) && $mode==='delete')
 {
-	mysql_query("DELETE FROM bukutamu WHERE id='$id'");
+	DB::con()->query("DELETE FROM bukutamu WHERE id='$id'");
 	echo"<script>alert('Pesan telah dihapus'); document.location='index.php?p=bukutamu';</script>";
 }
 if(isset($mode) && $mode==='kosongkan')
 {
-	mysql_query("TRUNCATE TABLE bukutamu");
+	DB::con()->query("TRUNCATE TABLE bukutamu");
 	echo"<script>alert('Bukutamu telah dikosongkan'); document.location='index.php?p=bukutamu';</script>";
 }
 if(isset($mode) && $mode==='view')
 {
-	$result2=mysql_query("SELECT * FROM bukutamu WHERE id='$id'");
-	$row2=mysql_fetch_object($result2);
+	$result2=DB::con()->query("SELECT * FROM bukutamu WHERE id='$id'");
+	$row2=mysqli_fetch_object($result2);
 ?>
 	<table width="80%" border="1" align="center">
 	  <tr>

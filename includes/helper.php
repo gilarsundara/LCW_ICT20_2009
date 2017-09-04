@@ -1,5 +1,6 @@
 <?php
 namespace includes;
+use DB;
 
 class helper{
 
@@ -17,8 +18,8 @@ class helper{
             }
             elseif($mode==='detail')
             {
-              $result=mysql_query("SELECT judul FROM berita WHERE id='$id' AND tampilkan='1'");
-              $row=mysql_fetch_object($result);
+              $result=DB::con()->query("SELECT judul FROM berita WHERE id='".$id."' AND tampilkan='1'");
+              $row=mysqli_fetch_object($result);
               echo $row->judul;
             }
           }
@@ -30,8 +31,8 @@ class helper{
             }
             elseif($id)
             {
-              $result2=mysql_query("SELECT judul FROM profil WHERE id='$id' AND tampilkan='1'");
-              $row2=mysql_fetch_object($result2); echo $row2->judul;
+              $result2=DB::con()->query("SELECT judul FROM profil WHERE id='$id' AND tampilkan='1'");
+              $row2=mysqli_fetch_object($result2); echo $row2->judul;
             }
           }
           elseif($p==='galeri')
@@ -46,8 +47,8 @@ class helper{
             }
             elseif($mode==='view')
             {
-              $result3=mysql_query("SELECT judul FROM emagz WHERE id='$id'");
-              $row3=mysql_fetch_object($result3); echo $row3->judul;
+              $result3=DB::con()->query("SELECT judul FROM emagz WHERE id='$id'");
+              $row3=mysqli_fetch_object($result3); echo $row3->judul;
             }
           }
           elseif($p==='bukutamu')
@@ -62,8 +63,8 @@ class helper{
             }
             elseif($pid)
             {
-              $result4=mysql_query("SELECT judul FROM poll_data WHERE id='$pid'");
-              $row4=mysql_fetch_object($result4); echo $row4->judul;
+              $result4=DB::con()->query("SELECT judul FROM poll_data WHERE id='$pid'");
+              $row4=mysqli_fetch_object($result4); echo $row4->judul;
             }
           }
           elseif($p==='credits')

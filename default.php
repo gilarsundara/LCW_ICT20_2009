@@ -1,14 +1,14 @@
 <?php
 define("home",1,true);
 session_start();
-include "config.php";
-include "includes\helper.php";
+require "includes/config.php";
+require "includes/helper.php";
 
-$p = $_GET['p'];
-$mode = $_GET['mode'];
-$pid = $_GET['pid'];
-$id = $_GET['id'];
-$act = $_GET['act'];
+$p = isset($_GET['p']) ? $_GET['p'] : '';
+$mode = isset($_GET['mode']) ? $_GET['mode'] : '';
+$pid = isset($_GET['pid']) ? $_GET['pid'] : '';
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$act = isset($_GET['act']) ? $_GET['act'] : '';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -19,7 +19,7 @@ $act = $_GET['act'];
 <meta name="description" content="Sekolah Menengah Atas Negeri 20 Bandung - Berkualitas Bersih Sehat Indah." />
 <meta name="keywords" content="SMAN 20 Bandung, SMA Negeri 20 Bandung, SMA Negeri, SMU Negeri, Sekolah Menengah Atas" />
 <title><?php
-            includes\helper::set_title($p,$mode,$pid,$id,$act);
+             includes\helper::set_title($p,$mode,$pid,$id,$act);
 ?> | SMA Negeri 20 Bandung</title>
 <link rel="shortcut icon" type="image/gif" href="favicon.gif" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -52,47 +52,47 @@ $act = $_GET['act'];
 <td width="474" height="500">
 <div><img src="images/content_h_<?php
 
-if(!isset($p))
+if(empty($p))
 {echo 1;}
-if(isset($p) && $p==='profil')
+elseif($p=='profil')
 {echo 2;}
-if(isset($p) && $p==='berita')
+elseif( $p=='berita')
 {echo 3;}
-if(isset($p) && $p==='galeri')
+elseif( $p=='galeri')
 {echo 4;}
-if(isset($p) && $p==='e-magz')
+elseif( $p=='e-magz')
 {echo 5;}
-if(isset($p) && $p==='bukutamu')
+elseif( $p=='bukutamu')
 {echo 6;}
-if(isset($p) && $p==='polling')
+elseif( $p=='polling')
 {echo 7;}
-if(isset($p) && $p==='credits')
+elseif( $p=='credits')
 {echo 8;}
-if(isset($p) && $p==='sitemap')
+elseif( $p=='sitemap')
 {echo 9;}
 ?>.jpg" alt="" width="474" height="107" /></div>
 <div class="content">
 <table align="center" width="90%">
 <tr>
 <td align="left"><?php
-if(!isset($p))
-{include "modules/home.php";}
-if(isset($p) && $p==='berita')
-{include "modules/berita.php";}
-if(isset($p) && $p==='profil')
-{include "modules/profil.php";}
-if(isset($p) && $p==='galeri')
-{include "modules/galeri.php";}
-if(isset($p) && $p==='e-magz')
-{include "modules/e-magz.php";}
-if(isset($p) && $p==='bukutamu')
-{include "modules/bukutamu.php";}
-if(isset($p) && $p==='polling')
-{include "modules/polling.php";}
-if(isset($p) && $p==='credits')
-{include "modules/credits.php";}
-if(isset($p) && $p==='sitemap')
-{include "modules/sitemap.php";}
+if(empty($p))
+{require "modules/home.php";}
+if($p=='berita')
+{require "modules/berita.php";}
+if($p=='profil')
+{require "modules/profil.php";}
+if($p=='galeri')
+{require "modules/galeri.php";}
+if($p=='e-magz')
+{require "modules/e-magz.php";}
+if($p=='bukutamu')
+{require "modules/bukutamu.php";}
+if($p=='polling')
+{require "modules/polling.php";}
+if($p=='credits')
+{require "modules/credits.php";}
+if($p=='sitemap')
+{require "modules/sitemap.php";}
 ?>
 </td>
 </tr>
@@ -103,7 +103,7 @@ if(isset($p) && $p==='sitemap')
 <td width="33" height="500"><img src="images/spacer_mr.jpg" alt="" width="33" height="500" /></td>
 <td width="169" height="500">
 <div><img src="images/polling_h.jpg" alt="" width="169" height="84" /></div>
-<div class="polling"><?php include "includes/polling.php" ?></div>
+<div class="polling"><?php require "includes/polling.php" ?></div>
 <div><img src="images/links.png" alt="" width="169" height="264" usemap="#LINKS" border="0" /></div>
 </td>
 <td width="73" height="500"><img src="images/spacer_r.jpg" alt="" width="73" height="500" /></td>

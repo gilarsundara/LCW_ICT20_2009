@@ -7,9 +7,9 @@ defined("home") or die("Maaf anda tidak bisa melihat halaman ini");
 <script src="js/jd.gallery.set.js" type="text/javascript"></script>
 <script type="text/javascript">
 window.addEvent('domready', function() {
-document.myGallerySet = new gallerySet($('myGallerySet'), {
-timed: false
-});
+	document.myGallerySet = new gallerySet($('myGallerySet'), {
+	timed: false
+	});
 });
 </script>
 <div class="content">
@@ -45,7 +45,7 @@ foreach($files as $key => $value){
 <img src="admin/thumb/phpThumb.php?src=../../<?=$dir.$value;?>&amp;w=400" alt="" class="full" />
 <img src="admin/thumb/phpThumb.php?src=../../<?=$dir.$value;?>&amp;w=100" alt="" class="thumbnail" />
 </div>
-<?
+<?php
 }
 ?>
 

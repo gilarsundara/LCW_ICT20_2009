@@ -18,7 +18,7 @@ if(!isset($mode))
 
 	$max_results = 5;
 	$from = (($hal * $max_results) - $max_results);  
-	$result=mysql_query("SELECT * FROM bukutamu ORDER BY id DESC LIMIT $from,$max_results ");
+	$result=DB::con()->query("SELECT * FROM bukutamu ORDER BY id DESC LIMIT $from,$max_results ");
 	
 	echo "<table width=\"100%\" border=\"0\">\n<tr>\n<td colspan=\"2\"><h2><a href=\"default.php?p=bukutamu&amp;mode=kirim\">Kirim Pesan</a></h2></td>\n</tr>\n";
 	if(isset($msg) && $msg===1)
@@ -27,13 +27,13 @@ if(!isset($mode))
 	  }
 	 
 	echo "<tr>\n<th>Pengirim</td>\n\n<th>Pesan</th>\n</tr>";
-	while($row=mysql_fetch_object($result))
+	while($row=mysqli_fetch_object($result))
 	{
 		echo "<tr>\n<td border=\"3\"><div align=\"left\"><a href=\"mailto:$row->email\">$row->nama</a><br />
 $row->dikirim</div></td><td><div align=\"left\">$row->pesan</div></td>\n</tr>\n";
 	}
 
-	$total_results = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM bukutamu"),0);
+	$total_results = count(DB::con()->query("SELECT COUNT(*) as Num FROM bukutamu"));
 	$total_pages = ceil($total_results / $max_results); 
 	echo "<tr>\n<td colspan=\"2\">Halaman</td>\n</tr>\n<tr>\n<td colspan=\"3\">";
 	
@@ -122,7 +122,7 @@ if(isset($mode) && $mode==='kirim')
 			} 
 			elseif(!empty($nama) && !empty($pesan) && eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+([\.][a-z0-9-]+)+$",$email))
 			{
-				mysql_query("INSERT INTO bukutamu (nama,email,pesan,dikirim) VALUES('$nama','$email','$pesan','$dikirim');");
+				DB::con()->query("INSERT INTO bukutamu (nama,email,pesan,dikirim) VALUES('$nama','$email','$pesan','$dikirim');");
 				echo "<script>document.location='default.php?p=bukutamu&msg=1';</script>";
 			}
 		}
