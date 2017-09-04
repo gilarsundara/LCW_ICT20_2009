@@ -2,7 +2,7 @@
 define("admin",1,true);
 define("home",1,true);
 session_start();
-include "../config.php";
+include "../includes/config.php";
 if($_SESSION['admin'] != 'admin')
 {
 	header("Location: login.php");

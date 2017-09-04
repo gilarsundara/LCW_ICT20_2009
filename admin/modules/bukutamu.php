@@ -42,7 +42,7 @@ if(!isset($mode))
 	<td><a href="index.php?p=bukutamu&amp;mode=view&amp;id=<?=$row->id;?>">Lihat Pesan</a> | <a href="index.php?p=bukutamu&amp;mode=delete&amp;id=<?=$row->id;?>">Hapus</a></td>
   </tr><?php
 	}
-	$total_results = mysqli_result(DB::con()->query("SELECT COUNT(*) as Num FROM bukutamu"),0);
+	$total_results = count(DB::con()->query("SELECT COUNT(*) as Num FROM bukutamu"),0);
 	$total_pages = ceil($total_results / $max_results);
 	echo "<tr>\n<th colspan=\"4\">Halaman</th>\n</tr>\n<tr>\n<td colspan=\"4\">";
 

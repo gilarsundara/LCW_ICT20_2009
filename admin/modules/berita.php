@@ -42,7 +42,7 @@ if($row->tampilkan!=0){echo"[ Ditampilkan ] ><a href=\"index.php?p=berita&amp;mo
   </tr><?php
 
 	}
-	$total_results = mysqli_result(DB::con()->query("SELECT COUNT(*) as Num FROM berita"),0);
+	$total_results = count(DB::con()->query("SELECT COUNT(*) as Num FROM berita"),0);
 	$total_pages = ceil($total_results / $max_results);
 	echo "<tr>\n<th colspan=\"5\">Halaman</th>\n</tr>\n<tr>\n<td colspan=\"5\">";
 
